@@ -1,0 +1,17 @@
+# Dependency directories
+node_modules
+package-locl.json
+# Build output
+build
+
+# Environment variables
+.env
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+
+# Temporary files
+*~
+*.swp
+*.swo

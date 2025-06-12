@@ -1,0 +1,10 @@
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+
+
+# Temporary files
+*~
+*.swp
+*.swo
