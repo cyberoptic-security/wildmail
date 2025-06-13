@@ -139,7 +139,7 @@ We will use this to allow SES to put mail in the S3 bucket, and for the lambdas 
 ### SPA
 
 The front end is written in ReactJS. 
-There are two folders in the `wildmail-spa` fodler . One with no auth, and one that has auth configured using Cognito and Entra. 
+There are two folders in the `wildmail-spa` folder . One with no auth, and one that has auth configured using Cognito and Entra. 
 
 init your local environment and install dependecies
 `npm install @chakra-ui/react@2 @emotion/react @emotion/styled framer-motion axios react-split react-icons`
