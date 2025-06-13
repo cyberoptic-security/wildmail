@@ -1,6 +1,6 @@
 # wildmail
 
-wildmail is an email inbox that allows receiving email to any name @ any subdomain of a specified domain without having to create the account first e.g. user@company1.example.com, user2@company2.example.com, user1@company2.example.com. When email is received by wildmail, it is automatically stored in a folder that matches the subdomain, and can be views in a basic front end client.
+wildmail is an email inbox that allows receiving email to any name @ any subdomain of a specified domain without having to create the account first e.g. user@company1.example.com, user2@company2.example.com, user1@company2.example.com. When email is received by wildmail, it is automatically stored in a folder that matches the subdomain, this folder will be automatically created if it doesn't already exist. Emails can then be viewed through the front end client.
 
 The purpose of wildmail is for when you want to test systems for yourself or clients. For instance if you are testing a web application you may want multiple user accounts for testing different scenarios. 
 
@@ -23,6 +23,7 @@ Next step is to configure your AWS environment. You will need need an SES identi
   We need an S3 bucket for the storage of emails, and an s3 bucket to host the SPA.
 
   Create a bucket for storing the emails and call it something sensible, it will be referred to here as <wildmail-storage>. S3 buckets need globally unique names so choose your own one. This bucket will need some permissions assigned but AWS won't let us do this until the other bits are set up.
+  Configure retention on this bucket if you do not want to keep the emails forever.
 
   Create a bucket for storing the SPA, and call that something sensible as well, it will be referred to here as <wildmail-spa>. This bucket needs to be configured for static website hosting, this option is at the bottom of the Properties tab for the bucket. Copy the S3 URL when it is turned on, this will be the address for your email client. You can use CloudFront if you would like to use a custom domain.
     This bucket will need to have 'Block all public access' disabled, and a permissions policy to allow access like:
