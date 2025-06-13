@@ -10,7 +10,7 @@ wildmail is built using Amazon SES to receive the email and store in an S3 bucke
 
 A second lambda runs an API that allows us to pull down lists of emails, and email content. It also allows downloading of email files in .eml, .json, or .txt format.
 
-Viewing of emails is via a React SPA. There are two version of this, one that does not have any auth built in, so acccess to the system must be added separately, or based of network access. And an auth version that uses Cognito and Entra for authentication. auth also needs to have the API secured via CloudFront or similar.
+Viewing of emails is via a React SPA. There are two version of this, one that does not have any auth built in, so acccess to the system must be added separately or based off network access. And an auth version that uses Cognito and Entra for authentication. auth also needs to have the API secured via CloudFront or similar.
 
 ## Installation
 
