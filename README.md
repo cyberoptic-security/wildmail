@@ -26,7 +26,7 @@ Next step is to configure your AWS environment. You will need need an SES identi
 
   Create a bucket for storing the SPA, and call that something sensible as well, it will be referred to here as <wildmail-spa>. This bucket needs to be configured for static website hosting, this option is at the bottom of the Properties tab for the bucket. Copy the S3 URL when it is turned on, this will be the address for your email client. You can use CloudFront if you would like to use a custom domain.
     This bucket will need to have 'Block all public access' disabled, and a permissions policy to allow access like:
-    ```
+```
     {
       "Version": "2012-10-17",
       "Statement": [
@@ -39,7 +39,7 @@ Next step is to configure your AWS environment. You will need need an SES identi
         }
       ]
     }
-    ```
+```
 
 ### IAM
 
@@ -103,10 +103,15 @@ We will use this to allow SES to put mail in the S3 bucket, and for the lambdas 
   #### wildmail-email-processor
   Because this one needs to import some stuff from somewhere, then it needs to be built locally then the zip file uploaded. 
   in the wildmail-email-processor file run
+  
   `npm init -y`
+  
   and install the required dependencies
+  
   `npm install mailparser @aws-sdk/client-s3`
+  
   Then create a zip file containing the `index.mjs` file and the `node_modules` folder
+  
   `zip -r wildmail-email-processor.zip index.js node_modules`
 
   Create a new lambda in AWS and upload this zip file.
@@ -120,19 +125,20 @@ We will use this to allow SES to put mail in the S3 bucket, and for the lambdas 
 
   Next is to ensure that your DNS is configured with a catchall MX record for email. In Route53 this can be done by creating an MX record and putting a * in the Record name field, other DNS hosts might be slightly different. Ensure the record points to the correct address for SES in your region. 
 
-  #### SES actions
+#### SES actions
 
   In SES go to Email receiving under Configuration. Create a rule set for your domain, and within the rule set create a rule. Set the recipient condition of the rule to be your domain name with a dot at the start e.g. `.example.com` This tells the rule to accept all email addressed to an example.com subdomain, but not to the root domain.
   Then create two Actions in the rule. 
-    Action 1 is to store the email in your S3 bucket that yo uset up for email storage (not the one for hosting the SPA) with the Object key prefix to be `emails/`. This stores all incoming emails in the /emails/ folder in the email storage bucket.
+  Action 1 is to store the email in your S3 bucket that yo uset up for email storage (not the one for hosting the SPA) with the Object key prefix to be `emails/`. This stores all incoming emails in the /emails/ folder in the email storage bucket.
 
-    Action 2 is to invoke the wildmail-email-processor lambda. The invocation type is Event invocation.
+  Action 2 is to invoke the wildmail-email-processor lambda. The invocation type is Event invocation.
 
-    At some point it will want a role. Make one and give it the `wildmail-s3-write` policy.
+  At some point it will want a role. Make one and give it the `wildmail-s3-write` policy.
 
 ### SPA
 
-The front end is written in ReactJS.
+The front end is written in ReactJS. 
+There are two folders in the `wildmail-spa` fodler . One with no auth, and one that has auth configured using Cognito and Entra. 
 
 init your local environment and install dependecies
 `npm install @chakra-ui/react@2 @emotion/react @emotion/styled framer-motion axios react-split react-icons`
