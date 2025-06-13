@@ -2,6 +2,8 @@
 
 wildmail is an email inbox that allows receiving email to any name @ any subdomain of a specified domain without having to create the account first e.g. user@company1.example.com, user2@company2.example.com, user1@company2.example.com. When email is received by wildmail, it is automatically stored in a folder that matches the subdomain, this folder will be automatically created if it doesn't already exist. Emails can then be viewed through the front end client.
 
+The orignal idea and creation of a very similar system was by Michael Fincham https://git.sr.ht/~fincham/ . None of the code in this repo is his though, so any issues with it I take full responsibility for.
+
 The purpose of wildmail is for when you want to test systems for yourself or clients. For instance if you are testing a web application you may want multiple user accounts for testing different scenarios. 
 
 wildmail will consider anything prepending the configured root domain as the folder.  e.g. user1@customer1.example.com will go in to the folder 'customer1', user1@app1.customer2.example.com will go in to the folder 'app1.customer2'.
