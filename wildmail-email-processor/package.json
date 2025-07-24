@@ -11,6 +11,6 @@
   "description": "",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.817.0",
-    "mailparser": "^3.7.3"
+    "mailparser": "^3.7.4"
   }
 }
