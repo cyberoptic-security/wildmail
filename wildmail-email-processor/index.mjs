@@ -45,10 +45,16 @@ export const handler = async (event) => {
             subject: parsed.subject,
             date: parsed.date,
             text: parsed.text,
-            html: parsed.html
+            html: parsed.html,
+            attachments: (parsed.attachments || []).map(att => ({
+              filename: att.filename,
+              contentType: att.contentType,
+              size: att.size
+            }))
           }),
           ContentType: 'application/json'
         })),
+        
         s3Client.send(new PutObjectCommand({
           Bucket: bucket,
           Key: `${baseKey}.txt`,
@@ -56,7 +62,15 @@ export const handler = async (event) => {
           ContentType: 'text/plain'
         }))
       ]);
-
+      for (const attachment of parsed.attachments || []) {
+        const key = `${baseKey}_attachments/${attachment.filename}`;
+        await s3Client.send(new PutObjectCommand({
+          Bucket: bucket,
+          Key: key,
+          Body: attachment.content,
+          ContentType: attachment.contentType
+        }));
+      }
       // Define the path to the summary index file for this subdomain
       const indexKey = `index/${subdomain}.json`;
 
@@ -118,6 +132,12 @@ async function getRawEmail(messageId) {
     Key: `emails/${messageId}`
   }));
   return await result.Body.transformToString();
+}
+
+// Extracts the subdomain from the email address, e.g. support@acme.comail.co.nz → 'acme'
+function extractSubdomain(address) {
+  const match = address.toLowerCase().match(/@(.+?)\.comail\.co\.nz$/);
+  return match ? match[1] : 'unknown';
 }
 
 // Extracts the subdomain from the email address, e.g. support@acme.example.co.nz → 'acme'

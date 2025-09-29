@@ -73,13 +73,13 @@ export const handler = async (event) => {
   if (method === 'GET' && path === '/download') {
     // === Return file download (.eml, .txt, or .json) ===
     const key = query.key;
-    if (!key || !/^[a-z0-9\-/]+\.(eml|txt|json)$/i.test(key)) {
+    if (!key || !/^[a-zA-Z0-9._\-\/]+$/i.test(key)) {
       return { statusCode: 400, headers, body: 'Invalid download key.' };
     }
 
     try {
       const result = await s3.send(new GetObjectCommand({ Bucket: bucket, Key: key }));
-      const body = await result.Body.transformToString();
+      const bodyBuffer = await result.Body.transformToByteArray();
       const extension = key.split('.').pop();
       const contentType = {
         eml: 'message/rfc822',
@@ -89,12 +89,13 @@ export const handler = async (event) => {
 
       return {
         statusCode: 200,
+        isBase64Encoded: true,
         headers: {
           ...headers,
-          'Content-Type': contentType,
+          'Content-Type': result.ContentType || 'application/octet-stream',
           'Content-Disposition': `attachment; filename="${key.split('/').pop()}"`
         },
-        body
+        body: Buffer.from(bodyBuffer).toString('base64')
       };
     } catch (err) {
       console.error("Download failed:", err);

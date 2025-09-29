@@ -235,7 +235,11 @@ function App() {
         headers: { Authorization: `Bearer ${token}` }
       });
       const body = await res.json();
-      const fullEmail = { ...email, text: body.text || '[No body]' };
+      const fullEmail = {
+        ...email,
+        text: body.text || '[No body]',
+        attachments: body.attachments || []
+      };
       setSelectedEmail(fullEmail);
       localStorage.setItem('selectedEmail', JSON.stringify(fullEmail));
     } catch (err) {
@@ -266,6 +270,29 @@ function App() {
     }
   };
 
+const downloadAttachment = async (filename) => {
+    const token = localStorage.getItem('id_token');
+    if (!token || !selectedEmail) return;
+
+    try {
+      const key = `${selectedEmail.id}_attachments/${filename}`;
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/download?key=${encodeURIComponent(key)}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = key.split('/').pop();
+      link.click();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      toast({ title: 'Download failed', description: err.message, status: 'error', duration: 5000, isClosable: true });
+    }
+};
+
+
   // Manual logout
   const logout = () => {
     localStorage.clear();
@@ -295,7 +322,7 @@ function App() {
           {folders.map(folder => <option key={folder} value={folder}>{folder}</option>)}
         </Select>
       </Box>
-      <Split direction="vertical" sizes={[60, 40]} minSize={200} style={{ height: 'calc(100vh - 72px)' }}>
+      <Split direction="vertical" sizes={[60, 40]} minSize={200} style={{ height: 'calc(100vh - 72px)', display: 'flex', flexDirection: 'column' }}>
         <Box p={4} overflowY="auto">
 
 
@@ -325,8 +352,15 @@ function App() {
           )}
         </Box>
 
-        <Box p={4} overflowY="auto" bg={useColorModeValue('gray.50', 'gray.800')}>
-          {selectedEmail ? (
+        <Box
+          flex="1"
+          overflow="auto"
+          display="flex"
+          flexDirection="column"
+          maxHeight="100%"
+        >
+          <Box flex="1" overflowY="auto">
+              {selectedEmail ? (
             <>
               <Heading size="sm" mb={2}>Email Details</Heading>
               <Text><strong>From:</strong> {selectedEmail.from}</Text>
@@ -339,10 +373,45 @@ function App() {
                 <Button onClick={() => downloadFile('json')}>Download .json</Button>
               </Flex>
               <Text mt={4} whiteSpace="pre-wrap">{selectedEmail.text}</Text>
+              {selectedEmail.attachments && selectedEmail.attachments.length > 0 && (
+                <>
+                  <Heading size="sm" mt={6} mb={2}>Attachments</Heading>
+                  <Table size="sm" variant="simple">
+                    <Tbody>
+                      {selectedEmail.attachments.map((att, index) => (
+                        <Tr key={index}>
+                          <Td>{att.filename}</Td>
+                          <Td>
+                            <Button
+                              size="sm"
+                              onClick={async () => {
+                                try {
+                                  await downloadAttachment(att.filename);
+                                } catch (err) {
+                                  toast({
+                                    title: 'Download failed',
+                                    description: err.message,
+                                    status: 'error',
+                                    duration: 5000,
+                                    isClosable: true
+                                  });
+                                }
+                              }}
+                            >
+                              Download
+                            </Button>
+                          </Td>
+                        </Tr>
+                      ))}
+                    </Tbody>
+                  </Table>
+                </>
+              )}
             </>
           ) : (
             <Text>Select an email to view its details.</Text>
           )}
+          </Box>
         </Box>
       </Split>
     </Container>
