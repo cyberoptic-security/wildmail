@@ -1,0 +1,73 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.gutter {
+  background-color: #cbd5e0; /* Chakra UI gray.300 for light mode */
+  background-clip: content-box;
+  border-top: 1px solid #a0aec0;
+  border-bottom: 1px solid #a0aec0;
+}
+
+.gutter.gutter-vertical {
+  height: 8px;
+  cursor: row-resize;
+  padding: 2px 0;
+}
+
+.gutter.gutter-horizontal {
+  width: 8px;
+  cursor: col-resize;
+  padding: 0 2px;
+  border-top: none;
+  border-bottom: none;
+  border-left: 1px solid #a0aec0;
+  border-right: 1px solid #a0aec0;
+}
+
+[data-theme='dark'] .gutter.gutter-horizontal {
+  border-left: 1px solid #2d3748;
+  border-right: 1px solid #2d3748;
+}
+
+/* Optional: Dark mode variant using a data attribute */
+[data-theme='dark'] .gutter {
+  background-color: #4a5568; /* Chakra UI gray.600 for dark mode */
+  border-top: 1px solid #2d3748;
+  border-bottom: 1px solid #2d3748;
+}
+

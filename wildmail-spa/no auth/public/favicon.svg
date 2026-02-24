@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6C63FF"/>
+      <stop offset="100%" stop-color="#3B82F6"/>
+    </linearGradient>
+  </defs>
+  <!-- Rounded background -->
+  <rect width="64" height="64" rx="14" fill="url(#bg)"/>
+  <!-- Envelope body -->
+  <rect x="10" y="18" width="44" height="30" rx="3" fill="white" opacity="0.95"/>
+  <!-- Envelope flap (V shape) -->
+  <path d="M10 18 L32 36 L54 18" fill="none" stroke="url(#bg)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Lightning bolt -->
+  <path d="M35 12 L28 30 L36 30 L29 50 L42 26 L34 26 Z" fill="#FBBF24" stroke="#F59E0B" stroke-width="1" stroke-linejoin="round"/>
+</svg>
