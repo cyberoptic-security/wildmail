@@ -285,7 +285,7 @@ function App() {
         color={pal.headerColor}
         flexShrink={0}
       >
-        <Heading size="md" color={pal.headingColor}>COMail Inbox Viewer</Heading>
+        <Heading size="md" color={pal.headingColor}>Wildmail Inbox</Heading>
         <Flex gap={2}>
           <Button leftIcon={<RepeatIcon />} onClick={loadEmails} {...headerBtnProps}>Refresh</Button>
           <IconButton

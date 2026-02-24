@@ -327,7 +327,7 @@ const downloadAttachment = async (filename) => {
 
     <Container maxW="100vw" h="100vh" p={0} overflow="hidden">
       <Box p={4} borderBottomWidth="1px" display="flex" justifyContent="space-between" alignItems="center">
-        <Heading size="md">COMail Inbox Viewer</Heading>
+        <Heading size="md">Wildmail Inbox</Heading>
         <Flex gap={2}>
           <Button leftIcon={<RepeatIcon />} onClick={loadEmails}>Refresh</Button>
           <DarkModeToggle />
